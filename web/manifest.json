@@ -1,6 +1,6 @@
 {
-    "name": "ilckl_membership",
-    "short_name": "ilckl_membership",
+    "name": "ILCKL Membership System",
+    "short_name": "ILCKL Membership",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
