@@ -74,7 +74,7 @@ To install the application on your Android device:
    ```
 
 2. **Configure Supabase Credentials**:
-   Open [lib/core/constants/supabase_constants.dart](file:///Users/muhammadnasrulmohamednoor/Dev/Devs/untitled%20folder/ilckl_membership/lib/core/constants/supabase_constants.dart) and configure your URL and Anon Key:
+   Open [lib/core/constants/supabase_constants.dart](lib/core/constants/supabase_constants.dart) and configure your URL and Anon Key:
    ```dart
    class SupabaseConstants {
      static const url = 'YOUR_SUPABASE_PROJECT_URL';
