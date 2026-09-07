@@ -399,6 +399,26 @@ class _DashboardScreenState
                           height: 15,
                         ),
 
+
+                        infoRow(
+                          'Title',
+                          member.title ?? '-',
+                        ),
+
+                        infoRow(
+                          'Gender',
+                          member.gender ?? '-',
+                        ),
+
+                        infoRow(
+                          'Nationality',
+                          member.nationality ?? '-',
+                        ),
+
+                        infoRow(
+                          'Date of Birth',
+                          member.dateOfBirth?.toString().split(' ').first ?? '-',
+                        ),
                         infoRow(
                           'IC Number',
                           member.icNumber ??

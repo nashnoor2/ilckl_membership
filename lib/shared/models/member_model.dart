@@ -23,6 +23,11 @@ class MemberModel {
   final DateTime? registrationDate;
   final DateTime? expiryDate;
 
+  final String? title;
+  final String? gender;
+  final String? nationality;
+  final DateTime? dateOfBirth;
+
   const MemberModel({
     required this.id,
     required this.userId,
@@ -38,6 +43,10 @@ class MemberModel {
     required this.membershipStatus,
     required this.registrationDate,
     required this.expiryDate,
+    required this.title,
+    required this.gender,
+    required this.nationality,
+    required this.dateOfBirth,
   });
 
   factory MemberModel.fromJson(
@@ -88,6 +97,10 @@ class MemberModel {
                 )
               : null,
 
+      title: json['title'] as String?,
+      gender: json['gender'] as String?,
+      nationality: json['nationality'] as String?,
+      dateOfBirth: json['date_of_birth'] != null ? DateTime.parse(json['date_of_birth']) : null,
       expiryDate:
           json['expiry_date'] != null
               ? DateTime.parse(
@@ -113,6 +126,10 @@ class MemberModel {
       'membership_status': membershipStatus,
       'registration_date':
           registrationDate?.toIso8601String(),
+      'title': title,
+      'gender': gender,
+      'nationality': nationality,
+      'date_of_birth': dateOfBirth?.toIso8601String(),
       'expiry_date':
           expiryDate?.toIso8601String(),
     };
@@ -133,6 +150,10 @@ class MemberModel {
     String? membershipStatus,
     DateTime? registrationDate,
     DateTime? expiryDate,
+    String? title,
+    String? gender,
+    String? nationality,
+    DateTime? dateOfBirth,
   }) {
     return MemberModel(
       id: id ?? this.id,
@@ -162,6 +183,10 @@ class MemberModel {
               this.registrationDate,
       expiryDate:
           expiryDate ?? this.expiryDate,
+      title: title ?? this.title,
+      gender: gender ?? this.gender,
+      nationality: nationality ?? this.nationality,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     );
   }
 
@@ -172,6 +197,10 @@ class MemberModel {
       'ic_number': icNumber,
       'oku_category': okuCategory,
       'status': membershipStatus,
+      'title': title,
+      'gender': gender,
+      'nationality': nationality,
+      'date_of_birth': dateOfBirth?.toIso8601String(),
       'expiry_date':
           expiryDate?.toIso8601String(),
     });

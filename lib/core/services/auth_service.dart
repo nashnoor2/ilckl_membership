@@ -74,6 +74,10 @@ class AuthService {
     required String password,
     required String address,
     required String okuCategory,
+    required String title,
+    required String gender,
+    required String nationality,
+    required DateTime dateOfBirth,
   }) async {
     final normalizedName =
         fullName.trim().toUpperCase();
@@ -143,6 +147,10 @@ class AuthService {
           normalizedAddress,
       'oku_category':
           normalizedOku,
+      'title': title,
+      'gender': gender,
+      'nationality': nationality,
+      'date_of_birth': dateOfBirth.toIso8601String(),
       'membership_type_id': 1,
       'membership_status':
           'Pending',

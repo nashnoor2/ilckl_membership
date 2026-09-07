@@ -25,8 +25,17 @@ class _ProfileScreenState
   bool loading = false;
 
   String? selectedOku;
+  String? selectedTitle;
+  String? selectedGender;
+  String? selectedNationality;
+  DateTime? selectedDateOfBirth;
 
   String? profilePhotoUrl;
+
+  final List<String> titles = ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof', 'Dato', 'Datin'];
+  final List<String> genders = ['Male', 'Female'];
+  final List<String> nationalities = ['Malaysian', 'Non-Malaysian'];
+
 
 final List<String> okuCategories = [
   'PHYSICAL',
@@ -54,8 +63,12 @@ final List<String> okuCategories = [
           widget.member.address ?? '',
     );
 
-    selectedOku =
-        widget.member.okuCategory;
+    selectedOku = widget.member.okuCategory;
+    selectedTitle = widget.member.title;
+    selectedGender = widget.member.gender;
+    selectedNationality = widget.member.nationality;
+    selectedDateOfBirth = widget.member.dateOfBirth;
+
 
     profilePhotoUrl =
         widget.member.profilePhoto;
@@ -67,6 +80,10 @@ final List<String> okuCategories = [
         loading = true;
       });
 
+      if (selectedTitle == null || selectedGender == null || selectedNationality == null || selectedDateOfBirth == null) {
+        throw Exception('Please fill all required fields (Title, Gender, Nationality, DOB)');
+      }
+      
       await MemberService()
           .updateProfile(
         phoneNumber:
@@ -75,6 +92,10 @@ final List<String> okuCategories = [
             addressController.text.trim(),
         okuCategory:
             selectedOku ?? '',
+        title: selectedTitle!,
+        gender: selectedGender!,
+        nationality: selectedNationality!,
+        dateOfBirth: selectedDateOfBirth!,
       );
 
       if (mounted) {
@@ -272,6 +293,49 @@ final List<String> okuCategories = [
 
             const SizedBox(height: 16),
 
+
+            DropdownButtonFormField<String>(
+              value: selectedTitle,
+              decoration: const InputDecoration(labelText: 'Title'),
+              items: titles.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
+              onChanged: (val) => setState(() => selectedTitle = val),
+            ),
+            const SizedBox(height: 16),
+
+            DropdownButtonFormField<String>(
+              value: selectedGender,
+              decoration: const InputDecoration(labelText: 'Gender'),
+              items: genders.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+              onChanged: (val) => setState(() => selectedGender = val),
+            ),
+            const SizedBox(height: 16),
+
+            DropdownButtonFormField<String>(
+              value: selectedNationality,
+              decoration: const InputDecoration(labelText: 'Nationality'),
+              items: nationalities.map((n) => DropdownMenuItem(value: n, child: Text(n))).toList(),
+              onChanged: (val) => setState(() => selectedNationality = val),
+            ),
+            const SizedBox(height: 16),
+
+            InkWell(
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: selectedDateOfBirth ?? DateTime.now().subtract(const Duration(days: 365 * 18)),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                );
+                if (date != null) {
+                  setState(() => selectedDateOfBirth = date);
+                }
+              },
+              child: InputDecorator(
+                decoration: const InputDecoration(labelText: 'Date of Birth'),
+                child: Text(selectedDateOfBirth == null ? 'Select Date' : "${selectedDateOfBirth!.toLocal()}".split(' ')[0]),
+              ),
+            ),
+            const SizedBox(height: 16),
             TextField(
               controller:
                   phoneController,

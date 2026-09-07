@@ -36,6 +36,10 @@ class MemberService {
     required String phoneNumber,
     required String address,
     required String okuCategory,
+    required String title,
+    required String gender,
+    required String nationality,
+    required DateTime dateOfBirth,
   }) async {
     final user =
         supabase.auth.currentUser;
@@ -61,6 +65,10 @@ class MemberService {
               okuCategory
                   .trim()
                   .toUpperCase(),
+          'title': title,
+          'gender': gender,
+          'nationality': nationality,
+          'date_of_birth': dateOfBirth.toIso8601String(),
 
           'updated_at':
               DateTime.now()

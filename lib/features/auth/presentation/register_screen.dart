@@ -36,6 +36,15 @@ class _RegisterScreenState
 
   bool loading = false;
 
+  String? selectedTitle;
+  String? selectedGender;
+  String? selectedNationality;
+  DateTime? selectedDateOfBirth;
+
+  final List<String> titles = ['Mr', 'Mrs', 'Ms', 'Miss', 'Dr', 'Prof', 'Dato', 'Datin'];
+  final List<String> genders = ['Male', 'Female'];
+  final List<String> nationalities = ['Malaysian', 'Non-Malaysian'];
+
   String? selectedOkuCategory;
 
   final List<String> okuCategories = [
@@ -49,6 +58,11 @@ class _RegisterScreenState
   ];
 
   Future<void> register() async {
+
+    if (selectedTitle == null) {
+      showMessage('Please select Title');
+      return;
+    }
 
     if (fullNameController.text.trim().isEmpty) {
       showMessage('Please enter Full Name');
@@ -72,6 +86,21 @@ class _RegisterScreenState
 
     if (addressController.text.trim().isEmpty) {
       showMessage('Please enter Address');
+      return;
+    }
+
+    if (selectedGender == null) {
+      showMessage('Please select Gender');
+      return;
+    }
+
+    if (selectedNationality == null) {
+      showMessage('Please select Nationality');
+      return;
+    }
+
+    if (selectedDateOfBirth == null) {
+      showMessage('Please select Date of Birth');
       return;
     }
 
@@ -118,8 +147,11 @@ class _RegisterScreenState
         address:
             addressController.text.trim(),
 
-        okuCategory:
-            selectedOkuCategory!,
+        okuCategory: selectedOkuCategory!,
+        title: selectedTitle!,
+        gender: selectedGender!,
+        nationality: selectedNationality!,
+        dateOfBirth: selectedDateOfBirth!,
       );
 
       if (mounted) {
@@ -182,6 +214,17 @@ class _RegisterScreenState
               child: Column(
                 children: [
 
+
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedTitle,
+                    decoration: const InputDecoration(
+                      labelText: 'Title',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: titles.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
+                    onChanged: (val) => setState(() => selectedTitle = val),
+                  ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller:
                         fullNameController,
@@ -250,6 +293,54 @@ class _RegisterScreenState
 
                   const SizedBox(height: 16),
 
+
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedGender,
+                    decoration: const InputDecoration(
+                      labelText: 'Gender',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: genders.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+                    onChanged: (val) => setState(() => selectedGender = val),
+                  ),
+                  const SizedBox(height: 16),
+
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedNationality,
+                    decoration: const InputDecoration(
+                      labelText: 'Nationality',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: nationalities.map((n) => DropdownMenuItem(value: n, child: Text(n))).toList(),
+                    onChanged: (val) => setState(() => selectedNationality = val),
+                  ),
+                  const SizedBox(height: 16),
+
+                  InkWell(
+                    onTap: () async {
+                      final date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+                      if (date != null) {
+                        setState(() => selectedDateOfBirth = date);
+                      }
+                    },
+                    child: InputDecorator(
+                      decoration: const InputDecoration(
+                        labelText: 'Date of Birth',
+                        border: OutlineInputBorder(),
+                      ),
+                      child: Text(
+                        selectedDateOfBirth == null 
+                          ? 'Select Date' 
+                          : "${selectedDateOfBirth!.toLocal()}".split(' ')[0],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
                     initialValue:
                         selectedOkuCategory,
