@@ -137,6 +137,7 @@ class _MembershipCardScreenState
                     const Icon(
                       Icons.badge,
                       size: 70,
+                      semanticLabel: 'Badge Icon',
                     ),
 
                     const SizedBox(
@@ -185,6 +186,7 @@ class _MembershipCardScreenState
                                       .person,
                                   size:
                                       60,
+                                  semanticLabel: 'Default Profile Picture',
                                 )
                               : null,
                     ),

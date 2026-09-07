@@ -67,9 +67,11 @@ class _DashboardScreenState
         ),
         actions: [
           IconButton(
+            tooltip: 'Logout',
             onPressed: logout,
             icon: const Icon(
               Icons.logout,
+              semanticLabel: 'Logout Icon',
             ),
           ),
         ],
@@ -153,6 +155,7 @@ class _DashboardScreenState
                                   ? const Icon(
                                       Icons.person,
                                       size: 50,
+                                      semanticLabel: 'Default Profile Picture',
                                     )
                                   : null,
                         ),

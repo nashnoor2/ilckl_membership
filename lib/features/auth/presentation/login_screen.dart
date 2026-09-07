@@ -114,6 +114,7 @@ class _LoginScreenState
                   const Icon(
                     Icons.badge,
                     size: 90,
+                    semanticLabel: 'Login Badge',
                   ),
 
                   const SizedBox(
@@ -173,7 +174,11 @@ class _LoginScreenState
                           const OutlineInputBorder(),
                       suffixIcon:
                           IconButton(
-                        onPressed: () {
+                        tooltip: obscurePassword
+                            ? 'Show password'
+                            : 'Hide password',
+                        onPressed:
+                            () {
                           setState(() {
                             obscurePassword =
                                 !obscurePassword;
@@ -183,6 +188,9 @@ class _LoginScreenState
                           obscurePassword
                               ? Icons.visibility
                               : Icons.visibility_off,
+                          semanticLabel: obscurePassword
+                              ? 'Show password'
+                              : 'Hide password',
                         ),
                       ),
                     ),

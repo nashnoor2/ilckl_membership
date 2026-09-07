@@ -191,6 +191,7 @@ final List<String> okuCategories = [
                             ? const Icon(
                                 Icons.person,
                                 size: 50,
+                                semanticLabel: 'Default Profile Picture',
                               )
                             : null,
                   ),
