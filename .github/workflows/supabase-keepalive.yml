@@ -1,0 +1,49 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Every day at 10:00 AM Malaysia time (02:00 UTC)
+    - cron: "0 2 * * *"
+
+  # Allows us to test it manually
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    name: Keep Supabase Active
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -e
+
+          echo "Checking Supabase..."
+
+          HTTP_STATUS=$(curl \
+            --silent \
+            --show-error \
+            --output /tmp/supabase_response.txt \
+            --write-out "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/rpc/keepalive" \
+            --request POST \
+            --header "apikey: ${SUPABASE_ANON_KEY}" \
+            --header "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            --header "Content-Type: application/json" \
+            --data '{}')
+
+          echo "HTTP Status: ${HTTP_STATUS}"
+
+          if [ "${HTTP_STATUS}" -ge 200 ] && [ "${HTTP_STATUS}" -lt 300 ]; then
+            echo "Supabase is healthy and responding."
+            exit 0
+          fi
+
+          echo "Supabase health check FAILED."
+          echo "Response:"
+          cat /tmp/supabase_response.txt
+
+          exit 1
